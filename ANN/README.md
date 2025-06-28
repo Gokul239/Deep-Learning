@@ -1,77 +1,76 @@
-# Telco Customer Churn Prediction – Deep Learning Approach
+# 🚀 Telco Customer Churn Prediction – Neural Network + Keras Tuner
 
-## Overview
+## TL;DR
 
-This project leverages a supervised learning approach using a feedforward Artificial Neural Network (ANN) to predict customer churn in a telecom business. It follows a complete ML pipeline from data preprocessing, feature engineering, model building, and evaluation.
-
----
-
-## Problem Statement
-
-Customer churn directly impacts revenue. The objective is to predict the likelihood of a customer exiting the service using available structured data. A reliable churn prediction model enables proactive retention strategies.
+This project builds a production-grade neural network model to **predict telecom customer churn**, leveraging **feature selection**, **standardization**, and **hyperparameter tuning** with **Keras Tuner**. Final model achieves ~79% accuracy on the test set.
 
 ---
 
-## Dataset
+## 🔍 Problem
 
-- **Source**: IBM Telco Customer Churn  
-- **Records**: ~7,000 rows, 20+ features  
-- **Target Variable**: `Churn` (Binary – Yes/No)
-
-Data fields include demographics, service subscription details, contract information, and billing metrics.
+Churn is expensive. Retaining customers is cheaper than acquiring new ones. The objective: build an intelligent system that **predicts churn before it happens** so business teams can intervene early.
 
 ---
 
-## Pipeline Summary
+## 📊 Dataset
 
-### 1. Data Preparation
+- **Source**: IBM Telco Churn Dataset  
+- **Samples**: ~7,000  
+- **Target**: `Churn` (Yes/No → 1/0)
 
-- Dropped unique identifiers (`customerID`)
-- Converted `TotalCharges` from object to numeric; handled coercion and removed nulls
-- Applied `LabelEncoder` to categorical features
-- Ensured numerical consistency across the dataset
-
-### 2. Feature Selection
-
-- Applied Recursive Feature Elimination (RFE) with a `DecisionTreeClassifier`
-- Retained top 5 features based on importance ranking
-
-### 3. Train-Test Split
-
-- 80/20 split using `train_test_split` from `sklearn`
-- Standardized inputs using `StandardScaler` for numerical stability
-
-### 4. Model Architecture
-
-- **Input Layer**: 16 neurons, ReLU
-- **Hidden Layer**: 8 neurons, ReLU
-- **Output Layer**: 1 neuron, Sigmoid (for binary classification)
-
-Compiled with:
-- Optimizer: `adam`
-- Loss: `binary_crossentropy`
-- Metrics: `accuracy`
-
-### 5. Training Strategy
-
-- Early stopping with patience of 3 epochs to prevent overfitting
-- Validation split: 10% of training data
-- Batch size: 10
-- Epochs: up to 30 (early-stopped)
-
-### 6. Evaluation
-
-- Tracked and plotted training vs validation accuracy and loss
-- Visual inspection of overfitting/underfitting trends
+Key features include contract type, monthly charges, tenure, service subscriptions, and more.
 
 ---
 
-## Environment & Dependencies
+## 🧠 ML Stack
+
+| Component        | Tool / Method                        |
+|------------------|--------------------------------------|
+| Feature Encoding | `LabelEncoder`                       |
+| Scaling          | `StandardScaler`                     |
+| Feature Selection| `RFE` with `DecisionTreeClassifier`  |
+| Model Type       | Feedforward Neural Network (Keras)   |
+| Tuning           | `Keras Tuner` – Random Search        |
+| Optimization     | Adam + Binary Crossentropy           |
+| Regularization   | `EarlyStopping` on `val_loss`        |
+
+---
+
+## 🏗️ Model Architecture (Tuned)
+
+- `Input`: 5 features from RFE
+- `Hidden Layer 1`: Tuned units (8–128, step=8), ReLU
+- `Hidden Layer 2`: Tuned units (8–128, step=8), ReLU
+- `Output Layer`: 1 neuron, Sigmoid
+
+Best architecture is selected automatically via `kt.RandomSearch()` based on validation accuracy.
+
+---
+
+## 📈 Results
+
+| Metric          | Value     |
+|------------------|-----------|
+| Test Accuracy    | ~78.9%    |
+| Test Loss        | ~0.438    |
+
+> Note: Actual performance may vary across runs due to randomness and search space.
+
+---
+
+## 📉 Training Curves
+
+<img src="train_val_accuracy.png" width="400">  <img src="train_val_loss.png" width="400">
+
+> Replace with actual plots if you save them via `plt.savefig()`.
+
+---
+
+## 🔁 Reproducible Pipeline
 
 ```bash
-python 3.8+
-tensorflow >= 2.x
-scikit-learn
-pandas
-numpy
-matplotlib
+# Install dependencies
+pip install pandas numpy scikit-learn matplotlib tensorflow keras-tuner
+
+# Run your script / notebook:
+python churn_model.py
