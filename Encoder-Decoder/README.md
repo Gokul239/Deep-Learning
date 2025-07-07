@@ -57,14 +57,3 @@ This project implements a **Sequence-to-Sequence (Seq2Seq)** model using an **En
 
 ---
 
-## ▶️ How to Run
-
-1. Clone or download this repo.
-2. Install dependencies:
-   ```bash
-   pip install torch matplotlib
-   ```
-3. Open the notebook:
-   ```bash
-   jupyter notebook encoder_decoder.ipynb
-   ```
